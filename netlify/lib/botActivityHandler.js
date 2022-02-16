@@ -24,7 +24,7 @@ class BotActivityHandler extends TeamsActivityHandler {
          } else if (text === "user") {
         await context.sendActivity(context.activity.from.id);
       } else if (text === "help") {
-        await context.sendActivity(`If you call these commands from a channel use "@Gravity info" format. Bot must be added to a channel before calling. Available commands: test, info, user, channel`);
+        await context.sendActivity("If you call these commands from a channel use `@Gravity info` format. Bot must be added to a channel before calling. Available commands: test, info, user, channel");
       } else if (text === "info") {
         const {
       serviceUrl: service_url,
