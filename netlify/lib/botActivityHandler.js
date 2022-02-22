@@ -18,7 +18,6 @@ class BotActivityHandler extends TeamsActivityHandler {
          return;
         }
         await context.sendActivity("Channel ID: "+context.activity.channelData.channel.id);
-//         await this.updateCourierProfile(context);
       } else if (text.includes("test")) {
         await context.sendActivity(`Gravity bot has been successfully added.`);
       } else if (text.includes("user")) {
