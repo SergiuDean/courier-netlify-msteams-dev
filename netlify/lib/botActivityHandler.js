@@ -13,7 +13,7 @@ class BotActivityHandler extends TeamsActivityHandler {
       if (text.includes("channel")) {
         if (!context.activity.channelData.channel) {
           await context.sendActivity(
-            `channel must be called from a channel.`
+            `"channel" must be called inside a channel.`
           );
          return;
         }
