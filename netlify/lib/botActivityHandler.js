@@ -40,52 +40,6 @@ class BotActivityHandler extends TeamsActivityHandler {
       await next();
     });
   }
-
-  async updateCourierProfile(context) {
-    const {
-      serviceUrl: service_url,
-      channelData: {
-        tenant: { id: tenant_id }
-      }
-    } = context.activity;
-    let profile = {
-      ms_teams: {
-        tenant_id,
-        service_url
-      }
-    };
-    const text = context.activity.text.trim();
-    const [cmd, recipientId] = text.split(" ");
-
-    if (cmd.toLowerCase() === "show-channel") {
-      if (!context.activity.channelData.channel) {
-        await context.sendActivity(
-          `show-channel must be called from a channel.`
-        );
-        return;
-      }
-      await context.sendActivity("channel id: "+context.activity.channelData.channel.id);
-    } else if (cmd.toLowerCase() === "show-user") {
-      await context.sendActivity("user id: "+context.activity.from.id);
-    } else {
-      await context.sendActivity(
-        `Error. Unsupported action.`
-      );
-      return;
-    }
-
-//     try {
-//       await courier.mergeProfile({
-//         recipientId,
-//         profile
-//       });
-
-//       await context.sendActivity(`Your profile has been updated.`);
-//     } catch (err) {
-//       console.log(err);
-//       await context.sendActivity(`An error occurred updating your profile.`);
-//     }
-  }
 }
 
 module.exports.BotActivityHandler = BotActivityHandler;
