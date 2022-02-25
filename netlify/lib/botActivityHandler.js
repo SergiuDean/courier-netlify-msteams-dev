@@ -48,7 +48,7 @@ class BotActivityHandler extends TeamsActivityHandler {
       } else if (text.toLowerCase().includes("user")) {
         await context.sendActivity("User ID: "+context.activity.from.id);
       } else if (text.toLowerCase().includes("help")) {
-        await context.sendActivity("If you call these commands from a channel use `@Gravity info` format.   \nBot must be added to a channel before calling.  \nAvailable commands:\ntest - checks if Gravity is available,\ninfo - returns Service URL and Tenant ID used to create integrations,\nuser - returns User ID used to create policies that send notifications to personal chat,\n channel - returns Channel ID used to create policies that send notifications to team channels");
+        await context.sendActivity("If you call these commands from a channel use `@Gravity info` format.   \nBot must be added to a channel before calling.  \nAvailable commands: \ntest - checks if Gravity is available,  \ninfo - returns Service URL and Tenant ID used to create integrations,   \nuser - returns User ID used to create policies that send notifications to personal chat,    \nchannel - returns Channel ID used to create policies that send notifications to team channels");
       } else if (text.toLowerCase().includes("info")) {
         const {
       serviceUrl: service_url,
