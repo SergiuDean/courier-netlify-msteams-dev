@@ -7,39 +7,61 @@ class BotActivityHandler extends TeamsActivityHandler {
     super();
 
 
-    this.onConversationUpdate(async (context, next) => {
-      const membersAdded = context.activity.membersAdded;
-      // const membersAdded = context.activity.channelData.teamsAddMembers;
-      const message = "Hello! And welcome to Gravity Teams Integration!   \nThis bot can respond to these commands: help, test, user, channel, info; which returns information needed to set up a Microsoft Teams Notification Integration in our platform.   \nThe notifications will be based on important events, for example job failiures.";
+    // Sends welcome messages to conversation members when they join the conversation.
+        // Messages are only sent to conversation members who aren't the bot.
+        this.onMembersAdded(async (context, next) => {
 
-      let conversationType = context.activity.conversation.conversationType;
-      for (let cnt = 0; cnt < membersAdded.length; cnt++) {
-          if (membersAdded[cnt].id == context.activity.recipient.id) {
-              if (conversationType === 'personal') {
-                  //member is added to personal channel
-                  await context.sendActivity(message);
+          const message = "Hello! And welcome to Gravity Teams Integration!   \nThis bot can respond to these commands: help, test, user, channel, info; which returns information needed to set up a Microsoft Teams Notification Integration in our platform.   \nThe notifications will be based on important events, for example job failiures.";
+
+          // Iterate over all new members added to the conversation
+          for (const idx in context.activity.membersAdded) {
+              // Greet anyone that was not the target (recipient) of this message.
+              // Since the bot is the recipient for events from the channel,
+              // context.activity.membersAdded === context.activity.recipient.Id indicates the
+              // bot was added to the conversation, and the opposite indicates this is a user.
+              if (context.activity.membersAdded[idx].id == context.activity.recipient.id) {
+                await context.sendActivity(message);
               }
-          } else if (conversationType !== 'personal') {
-            this.startReplyChain(context.activity.serviceUrl, context.activity.channelData.channel.id, message, function (err, address) {
-              if (err) {
-                  console.log(err);
-                  session.endDialog('There is some error');
-              }
-              // else {
-              //     var msg = new teams.TeamsMessage(session)
-              //     .text('Reply to main conversation')
-              //     .address(address);
-              //     session.send(msg);
-              //     session.endDialog();
-              // }
-              }
-              );
-              //bot is added to channel, send welcome to channel
-              await context.sendActivity(message);
           }
-      }
-      await next();
-  });
+
+          // By calling next() you ensure that the next BotHandler is run.
+          await next();
+      });
+
+
+  //   this.onMembersAdded(async (context, next) => {
+  //     const membersAdded = context.activity.membersAdded;
+  //     // const membersAdded = context.activity.channelData.teamsAddMembers;
+  //     const message = "Hello! And welcome to Gravity Teams Integration!   \nThis bot can respond to these commands: help, test, user, channel, info; which returns information needed to set up a Microsoft Teams Notification Integration in our platform.   \nThe notifications will be based on important events, for example job failiures.";
+
+  //     let conversationType = context.activity.conversation.conversationType;
+  //     for (let cnt = 0; cnt < membersAdded.length; cnt++) {
+  //         if (membersAdded[cnt].id == context.activity.recipient.id) {
+  //             if (conversationType === 'personal') {
+  //                 //member is added to personal channel
+  //                 await context.sendActivity(message);
+  //             }
+  //         } else if (conversationType !== 'personal') {
+  //           this.startReplyChain(context.activity.serviceUrl, context.activity.channelData.channel.id, message, function (err, address) {
+  //             if (err) {
+  //                 console.log(err);
+  //                 session.endDialog('There is some error');
+  //             }
+  //             // else {
+  //             //     var msg = new teams.TeamsMessage(session)
+  //             //     .text('Reply to main conversation')
+  //             //     .address(address);
+  //             //     session.send(msg);
+  //             //     session.endDialog();
+  //             // }
+  //             }
+  //             );
+  //             //bot is added to channel, send welcome to channel
+  //             await context.sendActivity(message);
+  //         }
+  //     }
+  //     await next();
+  // });
 
     // Registers an activity event handler for the message event, emitted for every incoming message activity.
     this.onMessage(async (context, next) => {
@@ -72,7 +94,7 @@ class BotActivityHandler extends TeamsActivityHandler {
     } = context.activity;
         await context.sendActivity("Service URL: "+service_url+"  \nTenant ID: "+tenant_id);//+"\nuser id: "+context.activity.from.id
       } else {
-        await context.sendActivity("Unknown command!  Available commands: test, info, user, channel");
+        await context.sendActivity("Unknown command!  Available commands: test, info, user, channel, help");
       }
 
       await next();
