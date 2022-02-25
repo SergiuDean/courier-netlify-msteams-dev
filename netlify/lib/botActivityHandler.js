@@ -7,24 +7,17 @@ class BotActivityHandler extends TeamsActivityHandler {
     super();
 
 
-    // Sends welcome messages to conversation members when they join the conversation.
-        // Messages are only sent to conversation members who aren't the bot.
         this.onMembersAdded(async (context, next) => {
 
-          const message = "Hello! And welcome to Gravity Teams Integration!   \nThis bot can respond to these commands: help, test, user, channel, info; which returns information needed to set up a Microsoft Teams Notification Integration in our platform.   \nThe notifications will be based on important events, for example job failiures.";
+          const message = "Hello! And welcome to Gravity Teams Integration!   \nThis bot can return information needed to set up a Microsoft Teams Notification Integration in our platform.   \nThe notifications will be based on important events, for example job failiures.";
 
-          // Iterate over all new members added to the conversation
           for (const idx in context.activity.membersAdded) {
-              // Greet anyone that was not the target (recipient) of this message.
-              // Since the bot is the recipient for events from the channel,
-              // context.activity.membersAdded === context.activity.recipient.Id indicates the
-              // bot was added to the conversation, and the opposite indicates this is a user.
-              if (context.activity.membersAdded[idx].id == context.activity.recipient.id) {
+
+              if (context.activity.membersAdded[idx].id === context.activity.recipient.id) {
                 await context.sendActivity(message);
               }
           }
 
-          // By calling next() you ensure that the next BotHandler is run.
           await next();
       });
 
