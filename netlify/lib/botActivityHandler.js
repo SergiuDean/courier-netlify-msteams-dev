@@ -10,7 +10,7 @@ class BotActivityHandler extends TeamsActivityHandler {
     this.onMessage(async (context, next) => {
       TurnContext.removeRecipientMention(context.activity);
       const text = context.activity.text.trim().toLocaleLowerCase();
-      if (text.includes("channel")) {
+      if (text.toLowerCase().includes("channel")) {
         if (!context.activity.channelData.channel) {
           await context.sendActivity(
             `"channel" must be called inside a channel.`
@@ -18,13 +18,17 @@ class BotActivityHandler extends TeamsActivityHandler {
          return;
         }
         await context.sendActivity("Channel ID: "+context.activity.channelData.channel.id);
-      } else if (text.includes("test")) {
+      } else if (text.toLowerCase().includes("test")) {
         await context.sendActivity(`Gravity bot has been successfully added.`);
-      } else if (text.includes("user")) {
+      } else if (text.toLowerCase().includes("hi")) {
+        await context.sendActivity(`Hello! Hope you're having a great day!`);
+      } else if (text.toLowerCase().includes("hello")) {
+        await context.sendActivity(`Hello! Hope you're having a great day!`);
+      } else if (text.toLowerCase().includes("user")) {
         await context.sendActivity("User ID: "+context.activity.from.id);
-      } else if (text.includes("help")) {
+      } else if (text.toLowerCase().includes("help")) {
         await context.sendActivity("If you call these commands from a channel use `@Gravity info` format.   \nBot must be added to a channel before calling.  \nAvailable commands: test, info, user, channel");
-      } else if (text.includes("info")) {
+      } else if (text.toLowerCase().includes("info")) {
         const {
       serviceUrl: service_url,
       channelData: {
