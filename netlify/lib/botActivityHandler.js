@@ -6,6 +6,24 @@ class BotActivityHandler extends TeamsActivityHandler {
   constructor() {
     super();
 
+
+    this.onMembersAdded(async (context, next) => {
+      const membersAdded = context.activity.membersAdded;
+      let conversationType = context.activity.conversation.conversationType;
+      for (let cnt = 0; cnt < membersAdded.length; cnt++) {
+          if (membersAdded[cnt].id !== context.activity.recipient.id) {
+              if (conversationType === 'personal') {
+                  //member is added to personal channel
+                  await context.sendActivity("Hello! And welcome to Gravity Teams Integration!");
+              }
+          } else if (conversationType !== 'personal') {
+              //bot is added to channel, send welcome to channel
+              await context.sendActivity(language.welcome_in_channel);
+          }
+      }
+      await next();
+  });
+
     // Registers an activity event handler for the message event, emitted for every incoming message activity.
     this.onMessage(async (context, next) => {
       TurnContext.removeRecipientMention(context.activity);
