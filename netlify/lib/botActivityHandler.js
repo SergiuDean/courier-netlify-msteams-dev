@@ -9,7 +9,7 @@ class BotActivityHandler extends TeamsActivityHandler {
 
         this.onMembersAdded(async (context, next) => {
           
-          const message = "Hello! This Gravity Integration sends notifications about important events from your Gravity account such as Job statuses, to personal chats or Team channels.   \nTo get started, take a look at https://docs.gravitydata.co/integrations/teams"
+          const message = "Hello!   \nThis Gravity Integration sends notifications about important events from your Gravity account such as Job statuses, to personal chats or Team channels.   \nTo get started, take a look at https://docs.gravitydata.co/integrations/teams"
 
 //           const message = "Hello! And welcome to Gravity Teams Integration!   \nThis bot can return information needed to set up a Microsoft Teams Notification Integration in our platform.   \nThe notifications will be based on important events, for example job failiures.";
 
